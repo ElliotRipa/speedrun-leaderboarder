@@ -10,6 +10,27 @@ import java.util.Map;
 public class Requester {
 
 
+    // Gets the information for a person given a name
+
+    public static Map<String, String> getPerson(String name) throws IOException {
+
+        URL obj = new URL("https://www.speedrun.com/api/v1/users?lookup=" + name);
+
+        return getJSON(obj);
+    }
+
+
+    // Gets the information for a game given an ID
+
+    public static Map<String, String> getGame(String id) throws IOException {
+
+        URL obj = new URL("https://www.speedrun.com/api/v1/games/" + id);
+
+        return getJSON(obj);
+
+    }
+
+
     public static Map<String, String> getJSON(String url) throws IOException {
 
         URL obj = new URL(url);
@@ -18,6 +39,8 @@ public class Requester {
 
     }
 
+
+    // Gets any information given a URL.
     public static Map<String, String> getJSON(URL url) throws IOException {
 
         HttpURLConnection con = (HttpURLConnection) url.openConnection();
