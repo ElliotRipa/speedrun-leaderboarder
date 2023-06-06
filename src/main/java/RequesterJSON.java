@@ -1,13 +1,8 @@
-import com.fasterxml.jackson.databind.ObjectMapper;
-import jdk.nashorn.internal.parser.JSONParser;
 import org.json.JSONObject;
 
-import java.io.BufferedReader;
 import java.io.IOException;
-import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
-import java.util.Map;
 import java.util.Scanner;
 
 public class RequesterJSON {
@@ -22,10 +17,6 @@ public class RequesterJSON {
         return getJSON(obj);
 
     }
-
-
-
-
 
     // Gets any information given a URL.
     public static JSONObject getJSON(URL url) throws IOException {

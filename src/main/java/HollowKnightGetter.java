@@ -1,7 +1,6 @@
 import org.json.JSONObject;
 
 import java.io.IOException;
-import java.net.URL;
 
 public class HollowKnightGetter {
 
