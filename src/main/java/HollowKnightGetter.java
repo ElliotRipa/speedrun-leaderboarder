@@ -69,6 +69,12 @@ public class HollowKnightGetter {
             System.out.println(id + " " + variables.get(id).getName());
         }
 
+        for (String id: varIDs) {
+            variables.get(id).addToCategories(categories);
+
+        }
+        System.out.println("hi");
+
     }
 
     public static JSONObject getGame(String id) throws IOException {
