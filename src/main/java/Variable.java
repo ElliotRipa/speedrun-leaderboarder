@@ -50,40 +50,36 @@ public class Variable {
 
         if(category.equals("global")) {
 
-            switch (this.id) {
+            switch (this.id) {                                              // These variables are set to global. Most of them shouldn't be.
 
-                case "onvkzmlm":
-                    for (String categoryKey : categoryKeys) {
+                case "onvkzmlm":                                            // Patch is the only one that should be global.
+                    for (String categoryKey : categoryKeys) {               // We add it to every category.
                         categories.get(categoryKey).addVariable(this);
                     }
                     break;
 
-                case "ql6165x8":
-                    categories.get("vdo5xe6k").addVariable(this);
+                case "ql6165x8":                                            // 107% AB Glitch should not be global.
+                    categories.get("vdo5xe6k").addVariable(this);           // We add it to 107% AB.
                     break;
 
-                case "5ly7kkkl":
-                    categories.get("8241w7w2").addVariable(this);
+                case "5ly7kkkl":                                            // Godhome Ending Glitch should not be global.
+                    categories.get("8241w7w2").addVariable(this);           // We add it to Godhome Ending.
                     break;
 
-                case "onvj96mn":
-                    categories.get("xk9vrl6d").addVariable(this);
-
+                case "onvj96mn":                                            // All Achievements Glitch should not be global.
+                    categories.get("xk9vrl6d").addVariable(this);           // We add it to All Achievements.
 
             }
 
-
-
         } else {
 
-            if(categoryKeys.contains(category)) {
+            if(categoryKeys.contains(category)) {                           // Adds all the well-behaved variables to their categories.
                 categories.get(category).addVariable(this);
-            } else {
+            } else {                                                        // Throws an exception if the category does not exist.
                 throw new RuntimeException("Specified category with id " + category + " does not exist.");
             }
 
         }
-
 
     }
 
