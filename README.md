@@ -1,1 +1,1 @@
-# speedrun-leaderboarded
+# speedrun-leaderboarder
