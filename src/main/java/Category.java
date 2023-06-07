@@ -16,6 +16,11 @@ public class Category {
         this.name = jsonObject.getString("name");
     }
 
+    public void addVariable(Variable variable) {
+        variables.add(variable);
+    }
+
+
     public String getName() {
         return name;
     }
