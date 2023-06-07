@@ -35,9 +35,10 @@ public class Variable {
             this.options.add(o);
         }
 
-        System.out.println(choices);
+    }
 
-
+    public String getName() {
+        return name;
     }
 
     private static class Option {
