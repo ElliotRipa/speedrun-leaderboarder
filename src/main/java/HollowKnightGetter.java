@@ -3,6 +3,9 @@ import org.json.JSONObject;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Set;
 
 public class HollowKnightGetter {
 
@@ -18,29 +21,53 @@ public class HollowKnightGetter {
         System.out.println(getGame("hollowknight"));
 
 
-        JSONObject categories = RequesterJSON.getJSON("https://www.speedrun.com/api/v1/games/76rqmld8/categories");
+        // Get an ArrayList of all the categories
+        JSONArray categoriesJSON = RequesterJSON.getJSON("https://www.speedrun.com/api/v1/games/76rqmld8/categories").getJSONArray("data");
 
-        System.out.println(categories);
+        HashMap<String, Category> categories = new HashMap<>();
+
+        ArrayList<String> unnecessaryCategories = FileReader.readFile("src/main/resources/unnecessary-categories.txt");
+        for (Object category: categoriesJSON) {
+            JSONObject jsonCategory = (JSONObject) category;
+            if(!unnecessaryCategories.contains(jsonCategory.getString("id"))) {
+                categories.put(jsonCategory.getString("id"), new Category((JSONObject) category));
+            }
+        }
+
+        System.out.println("Categories retrieved.");
+
 
         // Get the variables for Hollow Knight
-        JSONObject vars = RequesterJSON.getJSON("https://www.speedrun.com/api/v1/games/76rqmld8/variables");
+        JSONArray variablesJSON = RequesterJSON.getJSON("https://www.speedrun.com/api/v1/games/76rqmld8/variables").getJSONArray("data");
 
-        String patchID = (vars.getJSONArray("data").getJSONObject(0)).getString("id");
+        HashMap<String, Variable> variables = new HashMap<>();
 
-        System.out.println(patchID);
+        ArrayList<String> unnecessaryVariables = FileReader.readFile("src/main/resources/unnecessary-variables.txt");
+        for (Object variable : variablesJSON) {
+            JSONObject jsonVariable = (JSONObject) variable;
+            if(!unnecessaryVariables.contains(jsonVariable.getString("id"))) {
+                variables.put(jsonVariable.getString("id"), new Variable((JSONObject) variable));
+            }
+        }
 
-        System.out.println("Bweakpoint uwu :3");
+        System.out.println("Variables retrieved.");
 
-        // Get HK patches
-        JSONObject patches = RequesterJSON.getJSON("https://www.speedrun.com/api/v1/variables/" + patchID);
+/*        String patchID = (variablesJSON.getJSONObject(0)).getString("id");
 
-        JSONObject PatchIDs = ((patches.getJSONObject("data")).getJSONObject("values")).getJSONObject("choices");
+        System.out.println(patchID);*/
 
-        System.out.println(patches);
 
-        Variable v = new Variable(vars.getJSONArray("data").getJSONObject(0));
+        Set<String> catIDs = categories.keySet();
 
-        System.out.println(v);
+        for (String id: catIDs) {
+            System.out.println(id + " " + categories.get(id).getName());
+        }
+
+        Set<String> varIDs = variables.keySet();
+
+        for (String id: varIDs) {
+            System.out.println(id + " " + variables.get(id).getName());
+        }
 
     }
 
