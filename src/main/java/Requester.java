@@ -1,5 +1,5 @@
 import com.fasterxml.jackson.databind.ObjectMapper;
-
+import org.json.JSONObject;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -22,20 +22,24 @@ public class Requester {
 
     // Gets the information for a game given an ID
 
-    public static Map<String, String> getGame(String id) throws IOException {
+    public static JSONObject getGame(String id) throws IOException {
 
-        URL obj = new URL("https://www.speedrun.com/api/v1/games/" + id);
-
-        return getJSON(obj);
+        return RequesterJSON.getJSON("https://www.speedrun.com/api/v1/games/" + id);
 
     }
 
+    //Gets the top run given a game, category, variable, and option.
+    public static JSONObject getRecord(String game, String category, String variableID, String optionID) throws IOException {
 
-    public static Map<String, String> getJSON(String url) throws IOException {
+        return RequesterJSON.getJSON("https://www.speedrun.com/api/v1/leaderboards/" + game + "/category/" + category + "?var-" + variableID + "=" + optionID);
 
-        URL obj = new URL(url);
+    }
 
-        return getJSON(obj);
+    // TODO: Come up with something better!
+    // Poorly formatted code to do the same, but with two variables and options.
+    public static JSONObject getRecord(String game, String category, String variable1ID, String option1ID, String variable2ID, String option2ID) throws IOException {
+
+        return RequesterJSON.getJSON("https://www.speedrun.com/api/v1/leaderboards/" + game + "/category/" + category + "?var-" + variable1ID + "=" + option1ID + "&var-" + variable2ID + "=" + option2ID);
 
     }
 

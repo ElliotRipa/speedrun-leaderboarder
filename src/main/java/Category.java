@@ -34,7 +34,7 @@ public class Category {
             Variable var = variables.get(0);
 
             for(int i = 0 ; i < var.size() ; i++) {
-                result.put(HollowKnightGetter.getRecord(game, id, var.id, var.options.get(i).getID()));
+                result.put(Requester.getRecord(game, id, var.id, var.options.get(i).getID()));
             }
         }
 
@@ -46,7 +46,7 @@ public class Category {
 
             for(int i = 0 ; i < var0.size() ; i++) {
                 for(int j = 0 ; j < var1.size() ; j++) {
-                    result.put(HollowKnightGetter.getRecord(game, id, var0.id, var0.options.get(i).getID(), var1.id, var1.options.get(j).getID()));
+                    result.put(Requester.getRecord(game, id, var0.id, var0.options.get(i).getID(), var1.id, var1.options.get(j).getID()));
                 }
             }
 

@@ -18,7 +18,7 @@ public class HollowKnightGetter {
 
         System.out.println("hi");*/
 
-        System.out.println(getGame("hollowknight"));
+        System.out.println(Requester.getGame("hollowknight"));
 
 
         // Get an ArrayList of all the categories
@@ -113,24 +113,5 @@ public class HollowKnightGetter {
 
         JSONArray hi = categories.get("7dg9e9gk").getLeaderboards();
 
-        System.out.println(getRecord("hollowknight", "zdn80q9d", "0nwog2xl", "jq6kx7ol"));
-
     }
-
-    public static JSONObject getGame(String id) throws IOException {
-
-        return RequesterJSON.getJSON("https://www.speedrun.com/api/v1/games/" + id);
-
-    }
-
-    public static JSONObject getRecord(String game, String category, String variableID, String optionID) throws IOException {
-        return RequesterJSON.getJSON("https://www.speedrun.com/api/v1/leaderboards/" + game + "/category/" + category + "?var-" + variableID + "=" + optionID);
-    }
-
-    // This MUST be fixed!
-    public static JSONObject getRecord(String game, String category, String variable1ID, String option1ID, String variable2ID, String option2ID) throws IOException {
-        return RequesterJSON.getJSON("https://www.speedrun.com/api/v1/leaderboards/" + game + "/category/" + category + "?var-" + variable1ID + "=" + option1ID + "&var-" + variable2ID + "=" + option2ID);
-    }
-
-
 }
