@@ -8,7 +8,7 @@ import java.util.Scanner;
 public class RequesterJSON {
 
 
-    // Gets the information for a person given a name
+    // Gets any information given a URL String.
 
     public static JSONObject getJSON(String url) throws IOException {
 
