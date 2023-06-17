@@ -11,22 +11,19 @@ public class HollowKnightGetter {
 
     public static void HollowKnightGetterMain() throws IOException {
 
-        /*ArrayList<Map<String, String>> patches = new ArrayList<>();
-        Map<String, String> vars = Requester.getJSON("https://www.speedrun.com/api/v1/games/76rqmld8/variables");
-        String hi =
-        vars.get("data");
-
-        System.out.println("hi");*/
-
-        System.out.println(Requester.getGame("hollowknight"));
+        // Get the ID for Hollow Knight
+        String hkID = Requester.getGame("hollowknight").getJSONObject("data").getString("id");
 
 
         // Get an ArrayList of all the categories
-        JSONArray categoriesJSON = RequesterJSON.getJSON("https://www.speedrun.com/api/v1/games/76rqmld8/categories").getJSONArray("data");
+        JSONArray categoriesJSON = RequesterJSON.getJSON("https://www.speedrun.com/api/v1/games/" + hkID + "/categories").getJSONArray("data");
 
         HashMap<String, Category> categories = new HashMap<>();
 
-        ArrayList<String> unnecessaryCategories = FileReader.readFile("src/main/resources/unnecessary-categories.txt");
+        ArrayList<String> unnecessaryCategories = new ArrayList<>();
+                // FileReader.readFile("src/main/resources/unnecessary-categories.txt");
+
+
         for (Object category: categoriesJSON) {
             JSONObject jsonCategory = (JSONObject) category;
             if(!unnecessaryCategories.contains(jsonCategory.getString("id"))) {
