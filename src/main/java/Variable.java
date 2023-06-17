@@ -22,6 +22,10 @@ public class Variable {
         this.options.add(option);
     }
 
+    public int size() {
+        return options.size();
+    }
+
     // Generates a variable object given an appropriate JSONObject
     public Variable(JSONObject jsonObject) {
 
@@ -87,7 +91,7 @@ public class Variable {
         return name;
     }
 
-    private static class Option {
+    public static class Option {
         String id;
         String name;
 
@@ -96,6 +100,13 @@ public class Variable {
             this.name = name;
         }
 
+        public String getID() {
+            return id;
+        }
+
+        public String getName() {
+            return name;
+        }
     }
 
 }
