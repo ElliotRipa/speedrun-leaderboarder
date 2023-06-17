@@ -1,10 +1,10 @@
 import org.json.JSONArray;
 import org.json.JSONObject;
 
+import javax.management.StringValueExp;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.Map;
 import java.util.Set;
 
 public class HollowKnightGetter {
@@ -75,12 +75,61 @@ public class HollowKnightGetter {
         }
         System.out.println("hi");
 
+        JSONArray allLeaderBoards = new JSONArray();
+
+        Set<String> categoryKeys = categories.keySet();
+
+        for (String key : categoryKeys) {
+            JSONArray leaderboards = categories.get(key).getLeaderboards();
+            for (Object leaderboard: leaderboards) {
+                JSONObject JSONLeaderboard = (JSONObject) leaderboard;
+                allLeaderBoards.put(JSONLeaderboard);
+            }
+        }
+
+        int undoneCounter = 0;
+
+        HashMap<String, Integer> leaders = new HashMap<>();
+
+        for (Object leaderboard: allLeaderBoards) {
+            JSONObject JSONLeaderboard = (JSONObject) leaderboard;
+
+            System.out.println("HI");
+            if(JSONLeaderboard.getJSONObject("data").getJSONArray("runs").length() == 0) {
+                undoneCounter++;
+            } else {
+                String leader = JSONLeaderboard.getJSONObject("data").getJSONArray("runs").getJSONObject(0).getJSONObject("run").getJSONArray("players").getJSONObject(0).getString("id");
+                if(leaders.containsKey(leader)) {
+                    leaders.put(leader, leaders.get(leader)+1);
+                } else {
+                    leaders.put(leader, 1);
+                }
+            }
+            // System.out.println(JSONLeaderboard.getJSONObject("data").getJSONArray("runs"));
+
+        }
+
+        System.out.println(undoneCounter);
+
+        JSONArray hi = categories.get("7dg9e9gk").getLeaderboards();
+
+        System.out.println(getRecord("hollowknight", "zdn80q9d", "0nwog2xl", "jq6kx7ol"));
+
     }
 
     public static JSONObject getGame(String id) throws IOException {
 
         return RequesterJSON.getJSON("https://www.speedrun.com/api/v1/games/" + id);
 
+    }
+
+    public static JSONObject getRecord(String game, String category, String variableID, String optionID) throws IOException {
+        return RequesterJSON.getJSON("https://www.speedrun.com/api/v1/leaderboards/" + game + "/category/" + category + "?var-" + variableID + "=" + optionID);
+    }
+
+    // This MUST be fixed!
+    public static JSONObject getRecord(String game, String category, String variable1ID, String option1ID, String variable2ID, String option2ID) throws IOException {
+        return RequesterJSON.getJSON("https://www.speedrun.com/api/v1/leaderboards/" + game + "/category/" + category + "?var-" + variable1ID + "=" + option1ID + "&var-" + variable2ID + "=" + option2ID);
     }
 
 
