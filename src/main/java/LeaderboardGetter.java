@@ -2,9 +2,7 @@ import org.json.JSONArray;
 import org.json.JSONObject;
 
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Set;
+import java.util.*;
 
 public class LeaderboardGetter {
 
@@ -51,13 +49,6 @@ public class LeaderboardGetter {
 
         System.out.println(patchID);*/
 
-
-        Set<String> catIDs = categories.keySet();
-
-        for (String id : catIDs) {
-            System.out.println(id + " " + categories.get(id).getName());
-        }
-
         Set<String> varIDs = variables.keySet();
 
         for (String id : varIDs) {
@@ -68,7 +59,7 @@ public class LeaderboardGetter {
             variables.get(id).addToCategories(categories);
 
         }
-        System.out.println("hi");
+        System.out.println("Variables added to categories for " + gameID + ".");
 
         JSONArray allLeaderBoards = new JSONArray();
 
@@ -103,7 +94,6 @@ public class LeaderboardGetter {
                     leaders.put(leader, 1);
                 }
             }
-            // System.out.println(JSONLeaderboard.getJSONObject("data").getJSONArray("runs"));
 
         }
 
@@ -111,6 +101,33 @@ public class LeaderboardGetter {
 
         return leaders;
 
+    }
+
+    public static void printLeaders(HashMap<String, Integer> leaders) throws IOException {
+
+        HashMap<String, Integer> readableLeaders = new HashMap<>();
+
+        Set<String> userIDs = leaders.keySet();
+
+        for (String id : userIDs) {
+            String username = RequesterJSON.getJSON("https://www.speedrun.com/api/v1/users/" + id).getJSONObject("data").getJSONObject("names").getString("international");
+            readableLeaders.put(username, leaders.get(id));
+        }
+
+        List<Map.Entry<String, Integer>> list = new LinkedList<>(readableLeaders.entrySet());
+
+        Collections.sort(list, new Comparator<Map.Entry<String, Integer>>() {
+
+            public int compare(Map.Entry<String, Integer> o1,
+                               Map.Entry<String, Integer> o2) {
+                return o2.getValue().compareTo(o1.getValue());
+            }
+        });
+
+        for (int i = 0 ; i <= 5 ; i++) {
+            System.out.println(list.get(i).getKey() + ": " + list.get(i).getValue() + " World Records!");
+        }
 
     }
+
 }
