@@ -19,7 +19,7 @@ public class LeaderboardGetter {
 
         HashMap<String, Category> categories = new HashMap<>();
 
-        ArrayList<String> unnecessaryCategories = FileReader.readFile("src/main/resources/unnecessary-categories.txt");
+        ArrayList<String> unnecessaryCategories = FileReader.readFile("src/main/resources/" + gameID + "/unnecessary-categories.txt");
 
 
         for (Object category : categoriesJSON) {
@@ -37,7 +37,7 @@ public class LeaderboardGetter {
 
         HashMap<String, Variable> variables = new HashMap<>();
 
-        ArrayList<String> unnecessaryVariables = FileReader.readFile("src/main/resources/unnecessary-variables.txt");
+        ArrayList<String> unnecessaryVariables = FileReader.readFile("src/main/resources/" + gameID + "/unnecessary-variables.txt");
         for (Object variable : variablesJSON) {
             JSONObject jsonVariable = (JSONObject) variable;
             if (!unnecessaryVariables.contains(jsonVariable.getString("id"))) {
