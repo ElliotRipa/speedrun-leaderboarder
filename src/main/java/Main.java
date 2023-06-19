@@ -1,5 +1,8 @@
+import org.json.JSONArray;
+import org.json.JSONObject;
+
 import java.io.IOException;
-import java.util.Map;
+import java.util.HashMap;
 
 public class Main {
 
@@ -16,10 +19,25 @@ public class Main {
 
         System.out.println("hai :3");*/
 
-        HollowKnightGetter.HollowKnightGetterMain();
+        JSONArray hkLeaderboards = LeaderboardGetter.getLeaderboards("hollowknight");
 
+        JSONArray catXLeaderboards = LeaderboardGetter.getLeaderboards("hkmemes");
 
+        JSONArray allLeaderboards = new JSONArray();
 
+        for (Object leaderboard: hkLeaderboards) {
+            allLeaderboards.put(leaderboard);
+        }
+
+        for (Object leaderboard: catXLeaderboards) {
+            allLeaderboards.put(leaderboard);
+        }
+
+        System.out.println("!hi");
+
+        HashMap<String, Integer> leaders = LeaderboardGetter.getLeaders(allLeaderboards);
+
+        System.out.println(leaders);
 
     }
 
