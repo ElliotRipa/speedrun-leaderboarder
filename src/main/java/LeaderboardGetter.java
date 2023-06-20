@@ -41,15 +41,8 @@ public class LeaderboardGetter {
 
         System.out.println("Variables retrieved for " + gameID + ".");
 
-/*        String patchID = (variablesJSON.getJSONObject(0)).getString("id");
-
-        System.out.println(patchID);*/
 
         Set<String> varIDs = variables.keySet();
-
-        for (String id : varIDs) {
-            System.out.println(id + " " + variables.get(id).getName());
-        }
 
         for (String id : varIDs) {
             variables.get(id).addToCategories(categories);
