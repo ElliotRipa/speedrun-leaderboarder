@@ -28,6 +28,18 @@ public class Requester {
 
     }
 
+    public static JSONObject getCategory(String id) throws IOException {
+
+        return RequesterJSON.getJSON("https://www.speedrun.com/api/v1/categories/" + id);
+
+    }
+
+    public static JSONObject getVariable(String id) throws IOException {
+
+        return RequesterJSON.getJSON("https://www.speedrun.com/api/v1/variables/" + id);
+
+    }
+
     //Gets the top run given a game, category, variable, and option.
     public static JSONObject getRecord(String game, String category, String variableID, String optionID) throws IOException {
 
@@ -54,7 +66,7 @@ public class Requester {
 
             int responseCode = con.getResponseCode();
 
-            System.out.println("'GET' request is sent to URL : " + url + "\nResponse Code: " + responseCode);
+            // System.out.println("'GET' request is sent to URL : " + url + "\nResponse Code: " + responseCode);
 
             if(responseCode == 200) {
 
