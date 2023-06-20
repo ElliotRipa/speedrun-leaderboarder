@@ -50,77 +50,22 @@ public class Variable {
 
     public void addToCategories(HashMap<String, Category> categories) {
 
-        Set<String> categoryKeys = categories.keySet();
+        ArrayList<String> categoryKeys = new ArrayList<>(categories.keySet());
 
         if(category.equals("global")) {
-                                                                            // TODO: Fix this switch statement; It grew much larger than expected.
-            switch (this.id) {                                              // These variables are set to global. Most of them shouldn't be.
 
-                case "onvkzmlm":                                            // Patch is the only one that should be global.
-                    for (String categoryKey : categoryKeys) {               // We add it to every category.
-                        categories.get(categoryKey).addVariable(this);      // P.S. It's now been removed. But the code is kept in case of reversal.
-                    }
-                    break;
+            String game = categories.get(categoryKeys.get(0)).getPrettyGame();
 
-                case "ql6165x8":                                            // 107% AB Glitch should not be global.
-                    categories.get("vdo5xe6k").addVariable(this);           // We add it to 107% AB.
-                    break;
+            ArrayList<String> globalVarsArray = FileReader.readFile("src/main/resources/" + game + "/global-variables.txt");
 
-                case "5ly7kkkl":                                            // Godhome Ending Glitch should not be global.
-                    categories.get("8241w7w2").addVariable(this);           // We add it to Godhome Ending.
-                    break;
+            HashMap<String, String> globalVarsHashMap = new HashMap<>();
 
-                case "onvj96mn":                                            // All Achievements Glitch should not be global.
-                    categories.get("xk9vrl6d").addVariable(this);           // We add it to All Achievements.
-                    break;
-
-                                                                            // Category Extensions.
-                case "2lg3mmen":                                            // 3 Vessel Fragments Glitch should not be global.
-                    categories.get("jdzl8pv2").addVariable(this);           // We add it to 3 Vessel Fragments.
-                    break;
-
-                case "68koqg3n":                                            // Marissa Audience Glitch should not be global.
-                    categories.get("wkp5v40d").addVariable(this);           // We add it to Marissa Audience.
-                    break;
-
-                case "wlewrr4l":                                            // Save Myla Glitch should not be global.
-                    categories.get("824n6mgk").addVariable(this);           // We add it to Save Myla.
-                    break;
-
-                case "j845oq2n":                                            // Al2ba Glitch should not be global.
-                    categories.get("vdo5391k").addVariable(this);           // We add it to Al2ba%.
-                    break;
-
-                case "wlewrjxl":                                            // PoP% Glitch should not be global.
-                    categories.get("w20q1mzd").addVariable(this);           // We add it to PoP%.
-                    break;
-
-                case "j84ge248":                                            // Grubsong% Glitch should not be global.
-                    categories.get("z27w090k").addVariable(this);           // We add it to Grubsong%.
-                    break;
-
-                case "0nwpxg58":                                            // Ghostbusters Glitch should not be global.
-                    categories.get("zdnozyx2").addVariable(this);           // We add it to Ghostbusters.
-                    break;
-
-                case "zdnozyx2":                                            // Cartographer Glitch should not be global.
-                    categories.get("n2yvewe2").addVariable(this);           // We add it to Cartographer.
-                    break;
-
-                case "wl3177v8":                                            // Clawless Shade Cloak Glitch should not be global.
-                    categories.get("02q4o8pd").addVariable(this);           // We add it to Clawless Shade Cloak.
-                    break;
-
-                case "rn1p02dn":                                            // Pantheon 5 Boss Order Glitch should not be global.
-                    categories.get("zdnz57ed").addVariable(this);           // We add it to Pantheon 5 Boss Order.
-                    break;
-
-                case "r8rg9k2n":                                            // 0 Geo Glitch should not be global.
-                    categories.get("wkpvrqjk").addVariable(this);           // We add it to 0 Geo.
-                    break;
-
-
+            for (String line : globalVarsArray) {
+                String[] parts = line.split(" ");
+                globalVarsHashMap.put(parts[0], parts[1]);
             }
+
+            categories.get(globalVarsHashMap.get(this.id)).addVariable(this);
 
         } else {
 
