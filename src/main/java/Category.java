@@ -9,16 +9,18 @@ public class Category {
     String id;
     String name;
     String game;
+    String prettyGame;
 
     ArrayList<Variable> variables = new ArrayList<>();
 
 
     // Generates an incomplete category object given an appropriate JSONObject
-    public Category(JSONObject jsonObject) {
+    public Category(JSONObject jsonObject) throws IOException {
         this.id = jsonObject.getString("id");
         this.name = jsonObject.getString("name");
         // Magic numbers are bad, but it's only temporary... Hopefully...
         this.game = jsonObject.getJSONArray("links").getJSONObject(1).getString("uri").substring(38);
+        this.prettyGame = Requester.getGame(game).getJSONObject("data").getString("abbreviation");
     }
 
     public void addVariable(Variable variable) {
@@ -57,6 +59,10 @@ public class Category {
 
     public String getName() {
         return name;
+    }
+
+    public String getPrettyGame() {
+        return prettyGame;
     }
 
 }
