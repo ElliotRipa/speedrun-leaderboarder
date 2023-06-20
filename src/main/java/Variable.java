@@ -33,7 +33,10 @@ public class Variable {
         this.name = jsonObject.getString("name");
         if(jsonObject.getJSONObject("scope").getString("type").equals("global")) {
             this.category = "global";
+        } else if(jsonObject.getJSONObject("scope").getString("type").equals("single-level")) {
+            this.category = jsonObject.getJSONObject("scope").getString("level");
         } else {
+
             this.category = jsonObject.getString("category");
         }
 
@@ -73,6 +76,37 @@ public class Variable {
                 categories.get(category).addVariable(this);
             } else {                                                        // Throws an exception if the category does not exist.
                 throw new RuntimeException("Specified category with id " + category + " does not exist.");
+            }
+
+        }
+
+    }
+
+    public void addToLevels(HashMap<String, Level> levels) {
+
+        ArrayList<String> levelKeys = new ArrayList<>(levels.keySet());
+
+        if(category.equals("global")) {
+
+            String game = levels.get(levelKeys.get(0)).getPrettyGame();
+
+            ArrayList<String> globalVarsArray = FileReader.readFile("src/main/resources/" + game + "/levels/global-variables.txt");
+
+            HashMap<String, String> globalVarsHashMap = new HashMap<>();
+
+            for (String line : globalVarsArray) {
+                String[] parts = line.split(" ");
+                globalVarsHashMap.put(parts[0], parts[1]);
+            }
+
+            levels.get(globalVarsHashMap.get(this.id)).addVariable(this);
+
+        } else {
+
+            if(levelKeys.contains(category)) {                           // Adds all the well-behaved variables to their categories.
+                levels.get(category).addVariable(this);
+            } else {                                                        // Throws an exception if the category does not exist.
+                throw new RuntimeException("Specified level with id " + category + " does not exist.");
             }
 
         }
