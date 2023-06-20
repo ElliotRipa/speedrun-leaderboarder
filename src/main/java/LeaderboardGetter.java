@@ -8,12 +8,8 @@ public class LeaderboardGetter {
 
     public static JSONArray getLeaderboards(String gameID) throws IOException {
 
-        // Get the ID for Hollow Knight
-        String goodID = Requester.getGame(gameID).getJSONObject("data").getString("id");
-
-
         // Get an ArrayList of all the categories
-        JSONArray categoriesJSON = RequesterJSON.getJSON("https://www.speedrun.com/api/v1/games/" + goodID + "/categories").getJSONArray("data");
+        JSONArray categoriesJSON = RequesterJSON.getJSON("https://www.speedrun.com/api/v1/games/" + gameID + "/categories").getJSONArray("data");
 
         HashMap<String, Category> categories = new HashMap<>();
 
@@ -31,7 +27,7 @@ public class LeaderboardGetter {
 
 
         // Get the variables for Hollow Knight
-        JSONArray variablesJSON = RequesterJSON.getJSON("https://www.speedrun.com/api/v1/games/" + goodID + "/variables").getJSONArray("data");
+        JSONArray variablesJSON = RequesterJSON.getJSON("https://www.speedrun.com/api/v1/games/" + gameID + "/variables").getJSONArray("data");
 
         HashMap<String, Variable> variables = new HashMap<>();
 
