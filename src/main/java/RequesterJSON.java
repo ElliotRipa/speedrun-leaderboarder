@@ -28,7 +28,7 @@ public class RequesterJSON {
 
             int responseCode = con.getResponseCode();
 
-            System.out.println("'GET' request is sent to URL : " + url + "\nResponse Code: " + responseCode);
+            //System.out.println("'GET' request is sent to URL : " + url + "\nResponse Code: " + responseCode);
 
             if(responseCode == 200) {
 
@@ -48,9 +48,13 @@ public class RequesterJSON {
 
                 //Get the required data using its key
                 return obj;
-            }
+            } else if(responseCode == 420) {
+
+                throw new RuntimeException("Error code 420: Too many requests!");
 
             }
+
+        }
 
         return null;
 
