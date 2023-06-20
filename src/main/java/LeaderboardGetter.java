@@ -108,11 +108,13 @@ public class LeaderboardGetter {
 
     }
 
-    public static void printLeaders(HashMap<String, Integer> leaders) throws IOException {
+    public static void printLeaders(HashMap<String, Integer> leaders) throws IOException, InterruptedException {
 
         HashMap<String, Integer> readableLeaders = new HashMap<>();
 
         Set<String> userIDs = leaders.keySet();
+
+        Main.sleep(10);
 
         for (String id : userIDs) {
             String username = RequesterJSON.getJSON("https://www.speedrun.com/api/v1/users/" + id).getJSONObject("data").getJSONObject("names").getString("international");
