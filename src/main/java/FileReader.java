@@ -12,7 +12,9 @@ public class FileReader {
             Scanner scanner = new Scanner(file);
             while(scanner.hasNextLine()) {
                 String line = scanner.nextLine();
-                output.add(line);
+                if(line.charAt(0) != '#') {
+                    output.add(line);
+                }
             }
             scanner.close();
             return output;
