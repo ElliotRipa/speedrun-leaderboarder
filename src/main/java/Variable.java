@@ -56,7 +56,7 @@ public class Variable {
 
             String game = categories.get(categoryKeys.get(0)).getPrettyGame();
 
-            ArrayList<String> globalVarsArray = FileReader.readFile("src/main/resources/" + game + "/global-variables.txt");
+            ArrayList<String> globalVarsArray = FileReader.readFile("src/main/resources/" + game + "/categories/global-variables.txt");
 
             HashMap<String, String> globalVarsHashMap = new HashMap<>();
 

@@ -13,7 +13,7 @@ public class LeaderboardGetter {
 
         HashMap<String, Category> categories = new HashMap<>();
 
-        ArrayList<String> unnecessaryCategories = FileReader.readFile("src/main/resources/" + gameID + "/unnecessary-categories.txt");
+        ArrayList<String> unnecessaryCategories = FileReader.readFile("src/main/resources/" + gameID + "/categories/unnecessary-categories.txt");
 
 
         for (Object category : categoriesJSON) {
@@ -31,7 +31,7 @@ public class LeaderboardGetter {
 
         HashMap<String, Variable> variables = new HashMap<>();
 
-        ArrayList<String> unnecessaryVariables = FileReader.readFile("src/main/resources/" + gameID + "/unnecessary-variables.txt");
+        ArrayList<String> unnecessaryVariables = FileReader.readFile("src/main/resources/" + gameID + "/categories/unnecessary-variables.txt");
         for (Object variable : variablesJSON) {
             JSONObject jsonVariable = (JSONObject) variable;
             if (!unnecessaryVariables.contains(jsonVariable.getString("id"))) {
@@ -64,7 +64,7 @@ public class LeaderboardGetter {
         return allLeaderBoards;
     }
 
-    public static HashMap<String, Integer> getLeaders(JSONArray allLeaderBoards) {
+    public static HashMap<String, Integer> getLeaders(JSONArray allLeaderBoards) throws IOException {
 
         int undoneCounter = 0;
 
@@ -75,6 +75,22 @@ public class LeaderboardGetter {
 
             if(JSONLeaderboard.getJSONObject("data").getJSONArray("runs").length() == 0) {
                 undoneCounter++;
+                JSONObject game = Requester.getGame(JSONLeaderboard.getJSONObject("data").getString("game"));
+                String gameName = game.getJSONObject("data").getJSONObject("names").getString("international");
+
+                JSONObject category = Requester.getCategory(JSONLeaderboard.getJSONObject("data").getString("category"));
+                String categoryName = category.getJSONObject("data").getString("name");
+
+                String variableID = new ArrayList<String>(JSONLeaderboard.getJSONObject("data").getJSONObject("values").keySet()).get(0);
+                String variableName = Requester.getVariable(variableID).getJSONObject("data").getString("name");
+                String optionID = JSONLeaderboard.getJSONObject("data").getJSONObject("values").getString(variableID);
+                String optionName = Requester.getVariable(variableID).getJSONObject("data").getJSONObject("values").getJSONObject("values").getJSONObject(optionID).getString("label");
+
+                System.out.println("No one has run " + gameName + " " + categoryName + " where " + variableName + " = " + optionName);
+
+                //JSONObject variable = Requester.getVariable(JSONLeaderboard.getJSONObject("data").getJSONObject("values"))
+
+                //String category = Requester.
             } else {
                 String leader = JSONLeaderboard.getJSONObject("data").getJSONArray("runs").getJSONObject(0).getJSONObject("run").getJSONArray("players").getJSONObject(0).getString("id");
                 if(leaders.containsKey(leader)) {
