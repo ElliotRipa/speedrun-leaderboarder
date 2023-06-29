@@ -9,7 +9,7 @@ public class LevelLeaderboardGetter {
     public static JSONArray getLeaderboards(String gameID) throws IOException {
 
         // Get an ArrayList of all the levels
-        JSONArray levelsJSON = RequesterJSON.getJSON("https://www.speedrun.com/api/v1/games/" + gameID + "/levels").getJSONArray("data");
+        JSONArray levelsJSON = Requester.getJSON("https://www.speedrun.com/api/v1/games/" + gameID + "/levels").getJSONArray("data");
 
         HashMap<String, Level> levels = new HashMap<>();
 
@@ -22,7 +22,7 @@ public class LevelLeaderboardGetter {
 
 
         // Get the variables for Hollow Knight
-        JSONArray variablesJSON = RequesterJSON.getJSON("https://www.speedrun.com/api/v1/games/" + gameID + "/variables").getJSONArray("data");
+        JSONArray variablesJSON = Requester.getJSON("https://www.speedrun.com/api/v1/games/" + gameID + "/variables").getJSONArray("data");
 
         HashMap<String, Variable> variables = new HashMap<>();
 

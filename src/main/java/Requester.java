@@ -1,14 +1,16 @@
-import com.fasterxml.jackson.databind.ObjectMapper;
 import org.json.JSONObject;
-import java.io.BufferedReader;
 import java.io.IOException;
-import java.io.InputStreamReader;
-import java.net.HttpURLConnection;
-import java.net.URL;
-import java.util.Map;
 
 public class Requester {
 
+    public int hi = 5;
+
+
+    public static JSONObject getJSON(String url) throws IOException {
+
+        return RequesterJSON.getJSON(url);
+
+    }
 
     // Gets the information for a game given an ID
 
