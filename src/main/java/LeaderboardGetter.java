@@ -114,14 +114,14 @@ public class LeaderboardGetter {
 
         Set<String> userIDs = leaders.keySet();
 
-        Main.sleep(10);
+        // Main.sleep(10);
 
         int userCounter = 0;
 
         for (String id : userIDs) {
             userCounter++;
             if(userCounter % 50 == 0) {
-                Main.sleep(5);
+                // Main.sleep(5);
             }
             String username = requester.getJSON("https://www.speedrun.com/api/v1/users/" + id).getJSONObject("data").getJSONObject("names").getString("international");
             readableLeaders.put(username, leaders.get(id));

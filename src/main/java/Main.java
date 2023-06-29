@@ -1,29 +1,32 @@
 import org.json.JSONArray;
 
 import java.io.IOException;
+import java.time.LocalTime;
 import java.util.HashMap;
 
 public class Main {
 
     public static void main(String[] args) throws IOException, InterruptedException {
 
+        LocalTime start = LocalTime.now();
+
         Requester requester = new Requester();
 
         JSONArray hkLevelLeaderboards = LevelLeaderboardGetter.getLeaderboards("hollowknight", requester);
 
-        sleep(10);
+        // sleep(10);
 
         JSONArray catXLevelLeaderboards = LevelLeaderboardGetter.getLeaderboards("hkmemes", requester);
 
-        sleep(10);
+        // sleep(10);
 
         JSONArray hkLeaderboards = LeaderboardGetter.getLeaderboards("hollowknight", requester);
 
-        sleep(10);
+        // sleep(10);
 
         JSONArray catXLeaderboards = LeaderboardGetter.getLeaderboards("hkmemes", requester);
 
-        sleep(10);
+        // sleep(10);
 
         JSONArray allLeaderboards = new JSONArray();
 
@@ -46,6 +49,11 @@ public class Main {
         HashMap<String, Integer> leaders = LeaderboardGetter.getLeaders(allLeaderboards, requester);
 
         LeaderboardGetter.printLeaders(leaders, requester);
+
+        System.out.println(start.toString());
+        System.out.println(LocalTime.now().toString());
+
+        System.out.println(requester.querieCounter);
 
     }
 
