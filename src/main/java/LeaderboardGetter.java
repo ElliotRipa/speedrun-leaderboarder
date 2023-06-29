@@ -6,10 +6,10 @@ import java.util.*;
 
 public class LeaderboardGetter {
 
-    public static JSONArray getLeaderboards(String gameID) throws IOException {
+    public static JSONArray getLeaderboards(String gameID, Requester requester) throws IOException {
 
         // Get an ArrayList of all the categories
-        JSONArray categoriesJSON = Requester.getJSON("https://www.speedrun.com/api/v1/games/" + gameID + "/categories").getJSONArray("data");
+        JSONArray categoriesJSON = requester.getJSON("https://www.speedrun.com/api/v1/games/" + gameID + "/categories").getJSONArray("data");
 
         HashMap<String, Category> categories = new HashMap<>();
 
@@ -19,7 +19,7 @@ public class LeaderboardGetter {
         for (Object category : categoriesJSON) {
             JSONObject jsonCategory = (JSONObject) category;
             if (!unnecessaryCategories.contains(jsonCategory.getString("id"))) {
-                categories.put(jsonCategory.getString("id"), new Category((JSONObject) category));
+                categories.put(jsonCategory.getString("id"), new Category((JSONObject) category, requester));
             }
         }
 
@@ -27,7 +27,7 @@ public class LeaderboardGetter {
 
 
         // Get the variables for Hollow Knight
-        JSONArray variablesJSON = Requester.getJSON("https://www.speedrun.com/api/v1/games/" + gameID + "/variables").getJSONArray("data");
+        JSONArray variablesJSON = requester.getJSON("https://www.speedrun.com/api/v1/games/" + gameID + "/variables").getJSONArray("data");
 
         HashMap<String, Variable> variables = new HashMap<>();
 
@@ -55,7 +55,7 @@ public class LeaderboardGetter {
         Set<String> categoryKeys = categories.keySet();
 
         for (String key : categoryKeys) {
-            JSONArray leaderboards = categories.get(key).getLeaderboards();
+            JSONArray leaderboards = categories.get(key).getLeaderboards(requester);
             for (Object leaderboard : leaderboards) {
                 JSONObject JSONLeaderboard = (JSONObject) leaderboard;
                 allLeaderBoards.put(JSONLeaderboard);
@@ -64,7 +64,7 @@ public class LeaderboardGetter {
         return allLeaderBoards;
     }
 
-    public static HashMap<String, Integer> getLeaders(JSONArray allLeaderBoards) throws IOException {
+    public static HashMap<String, Integer> getLeaders(JSONArray allLeaderBoards, Requester requester) throws IOException {
 
         int undoneCounter = 0;
 
@@ -75,16 +75,16 @@ public class LeaderboardGetter {
 
             if(JSONLeaderboard.getJSONObject("data").getJSONArray("runs").length() == 0) {
                 undoneCounter++;
-                JSONObject game = Requester.getGame(JSONLeaderboard.getJSONObject("data").getString("game"));
+                JSONObject game = requester.getGame(JSONLeaderboard.getJSONObject("data").getString("game"));
                 String gameName = game.getJSONObject("data").getJSONObject("names").getString("international");
 
-                JSONObject category = Requester.getCategory(JSONLeaderboard.getJSONObject("data").getString("category"));
+                JSONObject category = requester.getCategory(JSONLeaderboard.getJSONObject("data").getString("category"));
                 String categoryName = category.getJSONObject("data").getString("name");
 
                 String variableID = new ArrayList<String>(JSONLeaderboard.getJSONObject("data").getJSONObject("values").keySet()).get(0);
-                String variableName = Requester.getVariable(variableID).getJSONObject("data").getString("name");
+                String variableName = requester.getVariable(variableID).getJSONObject("data").getString("name");
                 String optionID = JSONLeaderboard.getJSONObject("data").getJSONObject("values").getString(variableID);
-                String optionName = Requester.getVariable(variableID).getJSONObject("data").getJSONObject("values").getJSONObject("values").getJSONObject(optionID).getString("label");
+                String optionName = requester.getVariable(variableID).getJSONObject("data").getJSONObject("values").getJSONObject("values").getJSONObject(optionID).getString("label");
 
                 System.out.println("No one has run " + gameName + " " + categoryName + " where " + variableName + " = " + optionName);
 
@@ -108,7 +108,7 @@ public class LeaderboardGetter {
 
     }
 
-    public static void printLeaders(HashMap<String, Integer> leaders) throws IOException, InterruptedException {
+    public static void printLeaders(HashMap<String, Integer> leaders, Requester requester) throws IOException, InterruptedException {
 
         HashMap<String, Integer> readableLeaders = new HashMap<>();
 
@@ -123,7 +123,7 @@ public class LeaderboardGetter {
             if(userCounter % 50 == 0) {
                 Main.sleep(5);
             }
-            String username = Requester.getJSON("https://www.speedrun.com/api/v1/users/" + id).getJSONObject("data").getJSONObject("names").getString("international");
+            String username = requester.getJSON("https://www.speedrun.com/api/v1/users/" + id).getJSONObject("data").getJSONObject("names").getString("international");
             readableLeaders.put(username, leaders.get(id));
         }
 

@@ -7,19 +7,21 @@ public class Main {
 
     public static void main(String[] args) throws IOException, InterruptedException {
 
-        JSONArray hkLevelLeaderboards = LevelLeaderboardGetter.getLeaderboards("hollowknight");
+        Requester requester = new Requester();
+
+        JSONArray hkLevelLeaderboards = LevelLeaderboardGetter.getLeaderboards("hollowknight", requester);
 
         sleep(10);
 
-        JSONArray catXLevelLeaderboards = LevelLeaderboardGetter.getLeaderboards("hkmemes");
+        JSONArray catXLevelLeaderboards = LevelLeaderboardGetter.getLeaderboards("hkmemes", requester);
 
         sleep(10);
 
-        JSONArray hkLeaderboards = LeaderboardGetter.getLeaderboards("hollowknight");
+        JSONArray hkLeaderboards = LeaderboardGetter.getLeaderboards("hollowknight", requester);
 
         sleep(10);
 
-        JSONArray catXLeaderboards = LeaderboardGetter.getLeaderboards("hkmemes");
+        JSONArray catXLeaderboards = LeaderboardGetter.getLeaderboards("hkmemes", requester);
 
         sleep(10);
 
@@ -41,9 +43,9 @@ public class Main {
             allLeaderboards.put(leaderboard);
         }
 
-        HashMap<String, Integer> leaders = LeaderboardGetter.getLeaders(allLeaderboards);
+        HashMap<String, Integer> leaders = LeaderboardGetter.getLeaders(allLeaderboards, requester);
 
-        LeaderboardGetter.printLeaders(leaders);
+        LeaderboardGetter.printLeaders(leaders, requester);
 
     }
 

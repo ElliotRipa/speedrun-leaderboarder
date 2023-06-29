@@ -15,12 +15,12 @@ public class Category {
 
 
     // Generates an incomplete category object given an appropriate JSONObject
-    public Category(JSONObject jsonObject) throws IOException {
+    public Category(JSONObject jsonObject, Requester requester) throws IOException {
         this.id = jsonObject.getString("id");
         this.name = jsonObject.getString("name");
         // Magic numbers are bad, but it's only temporary... Hopefully...
         this.game = jsonObject.getJSONArray("links").getJSONObject(1).getString("uri").substring(38);
-        this.prettyGame = Requester.getGame(game).getJSONObject("data").getString("abbreviation");
+        this.prettyGame = requester.getGame(game).getJSONObject("data").getString("abbreviation");
     }
 
     public void addVariable(Variable variable) {
@@ -28,7 +28,7 @@ public class Category {
     }
 
     // This is horrible code practise. I am so, so sorry.
-    public JSONArray getLeaderboards() throws IOException {
+    public JSONArray getLeaderboards(Requester requester) throws IOException {
 
         JSONArray result = new JSONArray();
 
@@ -36,7 +36,7 @@ public class Category {
             Variable var = variables.get(0);
 
             for(int i = 0 ; i < var.size() ; i++) {
-                result.put(Requester.getRecord(game, id, var.id, var.options.get(i).getID()));
+                result.put(requester.getRecord(game, id, var.id, var.options.get(i).getID()));
             }
         }
 
@@ -48,7 +48,7 @@ public class Category {
 
             for(int i = 0 ; i < var0.size() ; i++) {
                 for(int j = 0 ; j < var1.size() ; j++) {
-                    result.put(Requester.getRecord(game, id, var0.id, var0.options.get(i).getID(), var1.id, var1.options.get(j).getID()));
+                    result.put(requester.getRecord(game, id, var0.id, var0.options.get(i).getID(), var1.id, var1.options.get(j).getID()));
                 }
             }
 

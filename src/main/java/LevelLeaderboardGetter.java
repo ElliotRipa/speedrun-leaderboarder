@@ -6,23 +6,23 @@ import java.util.*;
 
 public class LevelLeaderboardGetter {
 
-    public static JSONArray getLeaderboards(String gameID) throws IOException {
+    public static JSONArray getLeaderboards(String gameID, Requester requester) throws IOException {
 
         // Get an ArrayList of all the levels
-        JSONArray levelsJSON = Requester.getJSON("https://www.speedrun.com/api/v1/games/" + gameID + "/levels").getJSONArray("data");
+        JSONArray levelsJSON = requester.getJSON("https://www.speedrun.com/api/v1/games/" + gameID + "/levels").getJSONArray("data");
 
         HashMap<String, Level> levels = new HashMap<>();
 
         for (Object level : levelsJSON) {
             JSONObject jsonCategory = (JSONObject) level;
-            levels.put(jsonCategory.getString("id"), new Level((JSONObject) level));
+            levels.put(jsonCategory.getString("id"), new Level((JSONObject) level, requester));
         }
 
         System.out.println("Levels retrieved for " + gameID + ".");
 
 
         // Get the variables for Hollow Knight
-        JSONArray variablesJSON = Requester.getJSON("https://www.speedrun.com/api/v1/games/" + gameID + "/variables").getJSONArray("data");
+        JSONArray variablesJSON = requester.getJSON("https://www.speedrun.com/api/v1/games/" + gameID + "/variables").getJSONArray("data");
 
         HashMap<String, Variable> variables = new HashMap<>();
 
@@ -50,7 +50,7 @@ public class LevelLeaderboardGetter {
         Set<String> categoryKeys = levels.keySet();
 
         for (String key : categoryKeys) {
-            JSONArray leaderboards = levels.get(key).getLeaderboards();
+            JSONArray leaderboards = levels.get(key).getLeaderboards(requester);
             for (Object leaderboard : leaderboards) {
                 JSONObject JSONLeaderboard = (JSONObject) leaderboard;
                 allLeaderBoards.put(JSONLeaderboard);
